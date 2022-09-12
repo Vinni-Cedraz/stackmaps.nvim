@@ -17,3 +17,5 @@ vim.api.nvim_create_autocmd("BufReadPre", {
     vim.cmd "Hello"
   end,
 })
+-- this will keymap the <leader>l key to turn off the LSP suggestions
+-- in the current buffer

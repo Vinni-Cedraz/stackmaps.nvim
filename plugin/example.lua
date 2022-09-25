@@ -1,4 +1,4 @@
--- the following lines of code prints Hello, World! 
+-- the following lines of code prints Hello, World!
 -- everytime the Hello command is called in the Lunarvim
 -- command line
 
@@ -6,16 +6,27 @@ local cmd = vim.cmd
 
 cmd "command! Hello echo 'Hello, World!'"
 
--- Now the command Hello will be keymapped to the  - key on normal
+-- THIS FILE WAS SAVED AUTOMAGICALLY
+-- // oo-- Now the command Hello will be keymapped to the  - key on normal
 -- mode
 cmd "nnoremap <silent> - :Hello<CR>"
 
--- now the - keymapping will be automatically 
--- called when a lvim is started
+-- Hello called when a lvim is started
 vim.api.nvim_create_autocmd("BufReadPre", {
   callback = function()
     vim.cmd "Hello"
   end,
 })
--- this will keymap the <leader>l key to turn off the LSP suggestions
--- in the current buffer
+
+-- this creates a Save command that saves a file with :w and echos "this file is saved":
+vim.cmd "command! Save w | echo 'this file is saved'"
+
+-- the next autocommand echos "don't forget to save this file" every 2 minutes:
+local timer = vim.loop.new_timer()
+vim.api.nvim_create_autocmd("BufEnter", {
+  callback = function()
+    timer:start(120000, 0, vim.schedule_wrap(function()
+      vim.cmd "Save"
+    end))
+  end,
+})
